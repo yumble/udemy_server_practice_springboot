@@ -1,6 +1,7 @@
 package com.example.demo.src.user;
 
 
+import com.example.demo.src.user.model.DeleteUserRes;
 import com.example.demo.src.user.model.GetUserRes;
 import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.src.user.model.PostUserReq;
@@ -55,6 +56,17 @@ public class UserDao {
                         rs.getString("nickName"),
                         rs.getString("email")),
                 getUsersByIdxParams);
+    }
+    public DeleteUserRes deleteUserByIdx(int userIdx){
+        String deleteUserByIdxQuery = "select userIdx,name,nickName,email from User where userIdx=?";
+        int deleteUserByIdxParams = userIdx;
+        return this.jdbcTemplate.queryForObject(deleteUserByIdxQuery,
+                (rs, rowNum) -> new DeleteUserRes(
+                        rs.getInt("userIdx"),
+                        rs.getString("name"),
+                        rs.getString("nickName"),
+                        rs.getString("email")),
+                deleteUserByIdxParams);
     }
 
     public int createUser(PostUserReq postUserReq){

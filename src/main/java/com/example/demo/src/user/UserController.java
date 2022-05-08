@@ -75,6 +75,18 @@ public class UserController {
         }
     }
 
+    @ResponseBody
+    @PatchMapping("/{userIdx}") // (GET) 127.0.0.1:9000/users/:userIdx
+    public BaseResponse<DeleteUserRes> DeleteUserByIdx(@PathVariable("userIdx") int userIdx) {
+        try{
+
+            DeleteUserRes deleteUserRes = userProvider.deleteUserByIdx(userIdx);
+            return new BaseResponse<>(deleteUserRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     /**
      * 회원가입 API
      * [POST] /users
