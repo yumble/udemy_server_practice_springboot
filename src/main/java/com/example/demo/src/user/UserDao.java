@@ -57,18 +57,16 @@ public class UserDao {
                         rs.getString("email")),
                 getUsersByIdxParams);
     }
-    public DeleteUserRes deleteUserByIdx(int userIdx){
-        String deleteUserByIdxQuery = "select userIdx,name,nickName,email from User where userIdx=?";
-        int deleteUserByIdxParams = userIdx;
-        return this.jdbcTemplate.queryForObject(deleteUserByIdxQuery,
-                (rs, rowNum) -> new DeleteUserRes(
-                        rs.getInt("userIdx"),
-                        rs.getString("name"),
-                        rs.getString("nickName"),
-                        rs.getString("email")),
-                deleteUserByIdxParams);
-    }
+    public int deleteUsersByIdx(int userIdx){
+        String deleteUsersByIdxQuery = "update User set status = 'DELETED' where userIdx=?";
+        return this.jdbcTemplate.update(deleteUsersByIdxQuery, userIdx);
 
+    }
+    public int checkUser(int userIdx){
+        String checkUserQuery = "select exists(select userIdx from User where userIdx = ?)";
+        int checkUserParams = userIdx;
+        return this.jdbcTemplate.queryForObject(checkUserQuery, int.class, checkUserParams);
+    }
     public int createUser(PostUserReq postUserReq){
         String createUserQuery = "insert into User (name, nickName, phone, email, password) VALUES (?,?,?,?,?)";
         Object[] createUserParams = new Object[]{postUserReq.getName(), postUserReq.getNickName(),postUserReq.getPhone(), postUserReq.getEmail(), postUserReq.getPassword()};

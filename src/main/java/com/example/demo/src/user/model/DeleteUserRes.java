@@ -13,4 +13,6 @@ public class DeleteUserRes {
     private String nickName;
     private String email;
 
+    public DeleteUserRes(int userIdx) {
+    }
 }

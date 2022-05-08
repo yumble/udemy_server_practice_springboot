@@ -9,8 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.demo.config.BaseResponseStatus.POST_USERS_EMPTY_EMAIL;
-import static com.example.demo.config.BaseResponseStatus.POST_USERS_INVALID_EMAIL;
+import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @RestController
@@ -67,7 +66,6 @@ public class UserController {
     @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/users/:userIdx
     public BaseResponse<GetUserRes> getUserByIdx(@PathVariable("userIdx")int userIdx) {
         try{
-
             GetUserRes getUsersRes = userProvider.getUsersByIdx(userIdx);
             return new BaseResponse<>(getUsersRes);
         } catch(BaseException exception){
@@ -76,12 +74,12 @@ public class UserController {
     }
 
     @ResponseBody
-    @PatchMapping("/{userIdx}") // (GET) 127.0.0.1:9000/users/:userIdx
-    public BaseResponse<DeleteUserRes> DeleteUserByIdx(@PathVariable("userIdx") int userIdx) {
+    @PatchMapping("/{userIdx}/status") // (PATCH) 127.0.0.1:9000/users/:userIdx/status
+    public BaseResponse<String> deleteUsersByIdx(@PathVariable("userIdx") int userIdx) {
         try{
-
-            DeleteUserRes deleteUserRes = userProvider.deleteUserByIdx(userIdx);
-            return new BaseResponse<>(deleteUserRes);
+            userService.deleteUsersByIdx(userIdx);
+            String result = "해당 유저의 Status를 Deleted 상태로 Update 하였습니다.";
+            return new BaseResponse<>(result);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }

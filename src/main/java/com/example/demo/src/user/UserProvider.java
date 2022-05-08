@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.USERS_EMPTY_USER_ID;
 
 //Provider : Read의 비즈니스 로직 처리
 @Service
@@ -50,16 +51,6 @@ public class UserProvider {
         }
     }
 
-    public DeleteUserRes deleteUserByIdx(int userIdx) throws BaseException{
-        try{
-            DeleteUserRes deleteUserRes = userDao.deleteUserByIdx(userIdx);
-            return deleteUserRes;
-        }
-        catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
     public int checkEmail(String email) throws BaseException{
         try{
             return userDao.checkEmail(email);
@@ -68,6 +59,13 @@ public class UserProvider {
         }
     }
 
+    public int checkUser(int userIdx) throws BaseException{
+        try{
+            return userDao.checkUser(userIdx);
+        } catch (Exception exception){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+    }
 
 
 }
