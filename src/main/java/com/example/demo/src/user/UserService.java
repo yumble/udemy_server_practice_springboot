@@ -68,7 +68,7 @@ public class UserService {
     }
 
     public int deleteUsersByIdx(int userIdx) throws BaseException{
-        if(userProvider.checkUser(userIdx) == 0){
+        if(userProvider.checkUserExist(userIdx) == 0){
             throw new BaseException(USERS_EMPTY_USER_ID);
         }
         try{
