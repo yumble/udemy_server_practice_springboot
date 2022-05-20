@@ -4,12 +4,7 @@ server:
 spring:
   application:
     name: demo
-  http:
-    encoding:
-      charset: utf-8
-      force: true
 
-출처: https://wonzopein.com/105 [wonzopein.com]
   datasource:
     platform: mysql
     url:  jdbc:mysql://ruodb.c9nfniti19nu.ap-northeast-2.rds.amazonaws.com:3306/ruo # 변경해주세요
